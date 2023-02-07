@@ -12,7 +12,7 @@ all: build
 
 
 init: 
-	packer init
+	packer init .
 
 .PHONY: build
 build: init
