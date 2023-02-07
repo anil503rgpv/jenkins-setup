@@ -22,7 +22,7 @@ init:
 .PHONY: build
 build: 
 	docker run \
-		-v `pwd`:/workspace -w /workspace \
+		-v `pwd`:/packertemp -w /packertemp \
     	hashicorp/packer:latest \
     	build .
 
