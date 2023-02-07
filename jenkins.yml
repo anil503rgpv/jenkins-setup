@@ -11,24 +11,24 @@
   #     state: latest
   #   update_cache: yes
 
-  - name: Install OpenJDK 11
-    yum:
-      name: java-11-openjdk-devel
-      state: present
+  # - name: Install OpenJDK 11
+  #   yum:
+  #     name: java-11-openjdk-devel
+  #     state: present
 
-  - name: Set Java 11 as the default Java version
-    alternatives:
-      path: /usr/bin/java
-      link: /usr/lib/jvm/java-11-openjdk-11.0.9.1.0.0.el7_11-x86_64/bin/java
-      name: java-11-openjdk-11.0.9.1.0.0.el7_11-x86_64
+  # - name: Set Java 11 as the default Java version
+  #   alternatives:
+  #     path: /usr/bin/java
+  #     link: /usr/lib/jvm/java-11-openjdk-11.0.9.1.0.0.el7_11-x86_64/bin/java
+  #     name: java-11-openjdk-11.0.9.1.0.0.el7_11-x86_64
 
-  - name: Verify the Java version
-    shell: java -version
-    register: result
+  # - name: Verify the Java version
+  #   shell: java -version
+  #   register: result
 
-  - name: Display the Java version
-    debug:
-      var: result.stdout_lines
+  # - name: Display the Java version
+  #   debug:
+  #     var: result.stdout_lines
 
 
   - name: Install unzip
