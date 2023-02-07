@@ -14,11 +14,17 @@ all: build
 init: 
 	packer init .
 
-.PHONY: build
-build: init
-	packer build \
-		jenkins-master.pkr.hcl
+# .PHONY: build
+# build: 
+# 	packer build \
+# 		jenkins-master.pkr.hcl
 
+.PHONY: build
+build: 
+	docker run \
+    	hashicorp/packer:latest \
+    	build .
+		
 .PHONY: clean
 clean:
 	$(RM) -r output-*
