@@ -6,10 +6,16 @@
     user: jenkins
     group: jenkins
   tasks:
-  - name: Create Jenkins user
+  - name: Add group "{{ group }}" to remote server
+    group:
+      name: "{{ group }}"
+      gid: 3300
+      state: present
+  - name: Create Jenkins "{{ user }}"
     user:
       name: "{{ user }}"
       group: "{{ group }}"
+      uid: 3300
       shell: /bin/bash
 
 
