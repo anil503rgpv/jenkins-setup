@@ -11,7 +11,8 @@ REGION = us-west-2
 all: build
 
 
-init: packer init
+init: 
+	packer init
 
 .PHONY: build
 build: init
