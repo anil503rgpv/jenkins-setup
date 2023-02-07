@@ -2,6 +2,8 @@
 - name: Install and configure Jenkins master on AWS Linux EC2
   hosts: all
   become: yes
+  remote_user: jenkins
+  become_user: jenkins
   tasks:
   - name: Update the system
     package:
