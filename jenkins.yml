@@ -1,0 +1,62 @@
+---
+- name: Install and configure Jenkins master on AWS Linux EC2
+  hosts: all
+  become: yes
+  tasks:
+  - name: Update the system
+    package:
+      name: '*'
+      state: latest
+    update_cache: yes
+
+  - name: Install OpenJDK 11
+    yum:
+      name: java-11-openjdk-devel
+      state: present
+
+  - name: Set Java 11 as the default Java version
+    alternatives:
+      path: /usr/bin/java
+      link: /usr/lib/jvm/java-11-openjdk-11.0.9.1.0.0.el7_11-x86_64/bin/java
+      name: java-11-openjdk-11.0.9.1.0.0.el7_11-x86_64
+
+  - name: Verify the Java version
+    shell: java -version
+    register: result
+
+  - name: Display the Java version
+    debug:
+      var: result.stdout_lines
+
+
+  - name: Install unzip
+    yum:
+      name: unzip
+      state: present
+
+  - name: Download Terraform
+    get_url:
+      url: https://releases.hashicorp.com/terraform/0.15.5/terraform_0.15.5_linux_amd64.zip
+      dest: /tmp
+
+  - name: Extract Terraform
+    unarchive:
+      src: /tmp/terraform_0.15.5_linux_amd64.zip
+      dest: /usr/local/bin
+      remote_src: yes
+
+  - name: Download Packer
+    get_url:
+      url: https://releases.hashicorp.com/packer/1.7.2/packer_1.7.2_linux_amd64.zip
+      dest: /tmp
+
+  - name: Extract Packer
+    unarchive:
+      src: /tmp/packer_1.7.2_linux_amd64.zip
+      dest: /usr/local/bin
+      remote_src: yes
+
+  - name: Install Ansible
+    yum:
+      name: ansible
+      state: present
