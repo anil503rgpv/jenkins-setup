@@ -1,4 +1,4 @@
-source "amazon-ebs" "basic-example" {
+source "amazon-ebs" "jenkins-master" {
   region =  "ap-south-1"
   source_ami = "ami-01a4f99c4ac11b03c"
   instance_type =  "m5a.large"
@@ -8,6 +8,14 @@ source "amazon-ebs" "basic-example" {
   #ssh_keypair_name = "jenkins"
   ssh_username =  "ec2-user"
   ami_name =  "jenkins-master-{{timestamp}}"
+
+  launch_block_device_mappings {
+    device_name = "/dev/sda1"
+    volume_size = 50
+    volume_type = "gp3"
+    delete_on_termination = true
+  }
+
   tags = {
       managedBy = "DevOps"
       usedBy = "YouTube"
@@ -17,7 +25,7 @@ source "amazon-ebs" "basic-example" {
 
 build {
   sources = [
-    "source.amazon-ebs.basic-example"
+    "source.amazon-ebs.jenkins-master"
   ]
 
 //   provisioner "shell" {
@@ -25,7 +33,7 @@ build {
 //   }
 
   provisioner "ansible" {
-      playbook_file = "./jenkins-master.yml"
+      playbook_file = "./ansible/jenkins-master.yml"
     }
 }
 
