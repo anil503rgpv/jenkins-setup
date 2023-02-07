@@ -3,6 +3,7 @@ source "amazon-ebs" "basic-example" {
   source_ami =  "ami-02bbd3e40eb247e7e"
   instance_type =  "m5a.large"
   associate_public_ip_address = true
+  ssh_clear_authorized_keys = true
   ssh_username =  "jenkins"
   ami_name =  "jenkins-master-{{timestamp}}"
   tags = {
