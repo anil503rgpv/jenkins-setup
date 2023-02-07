@@ -16,8 +16,7 @@ init:
 
 .PHONY: build
 build: 
-	packer build \
-		jenkins-master.pkr.hcl
+	packer build .
 
 # .PHONY: build
 # build: 

@@ -6,10 +6,10 @@
     user: jenkins
     group: jenkins
   tasks:
-  - name: Install OpenJDK 11 and epel
+  - name: Install OpenJDK 11, epel, Docker
     command: amazon-linux-extras install java-openjdk11 epel docker -y
   
-  - name: Install Ansible and git 
+  - name: Install Ansible, git and maven
     yum:
       name: 
         - ansible
@@ -53,22 +53,28 @@
       dest: /usr/local/bin
       remote_src: yes
 
-  - name: Add group "{{ group }}" to remote server
-    group:
-      name: "{{ group }}"
-      gid: 3300
-      state: present
-  - name: Create Jenkins "{{ user }}"
-    user:
-      name: "{{ user }}"
-      group: "{{ group }}"
-      uid: 3300
-      shell: /bin/bash
+  # - name: Add group "{{ group }}" to remote server
+  #   group:
+  #     name: "{{ group }}"
+  #     gid: 3300
+  #     state: present
+  # - name: Create Jenkins user 
+  #   user:
+  #     name: "{{ user }}"
+  #     group: "{{ group }}"
+  #     uid: 3300
+  #     shell: /bin/bash
 
+  - name: docker enabling for boot
+    systemd:
+      state: started
+      enabled: true
+      masked: no
+      name: docker
 
   - name: Add Jenkins user to Docker group
     user:
-      name: "{{ user }}"
+      name: ec2-user
       groups: docker
       append: yes
   - name: Add Jenkins user to ec2-user group
