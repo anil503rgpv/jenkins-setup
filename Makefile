@@ -22,9 +22,10 @@ init:
 .PHONY: build
 build: 
 	docker run \
+		-v `pwd`:/workspace -w /workspace \
     	hashicorp/packer:latest \
     	build .
-		
+
 .PHONY: clean
 clean:
 	$(RM) -r output-*
