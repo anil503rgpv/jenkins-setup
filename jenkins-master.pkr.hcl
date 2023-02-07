@@ -21,13 +21,13 @@ build {
     "source.amazon-ebs.basic-example"
   ]
 
-  provisioner "shell" {
-    inline = ["echo Connected via SSM at '${build.User}@${build.Host}:${build.Port}'"]
-  }
+//   provisioner "shell" {
+//     inline = ["echo Connected via SSM at '${build.User}@${build.Host}:${build.Port}'"]
+//   }
 
-//   provisioner "ansible" {
-//       playbook_file = "./jenkins.yml"
-//     }
+  provisioner "ansible" {
+      playbook_file = "./jenkins.yml"
+    }
 }
 
 
