@@ -2,23 +2,37 @@
 - name: Install and configure Jenkins master on AWS Linux EC2
   hosts: all
   become: yes
-  # remote_user: jenkins
-  # become_user: jenkins
+  vars:
+    user: jenkins
+    group: jenkins
   tasks:
-  # - name: Update the system
-  #   package:
-  #     name: '*'
-  #     state: latest
-  #   update_cache: yes
+  - name: Create Jenkins user
+    user:
+      name: "{{ user }}"
+      group: "{{ group }}"
+      shell: /bin/bash
+
 
   - name: Install OpenJDK 11 and epel
-    command: amazon-linux-extras install java-openjdk11 epel -y
-
-  # - name: Set Java 11 as the default Java version
-  #   alternatives:
-  #     path: /usr/bin/java
-  #     link: /usr/lib/jvm/java-11-openjdk-11.0.9.1.0.0.el7_11-x86_64/bin/java
-  #     name: java-11-openjdk-11.0.9.1.0.0.el7_11-x86_64
+    command: amazon-linux-extras install java-openjdk11 epel docker -y
+  
+  - name: Add Jenkins user to Docker group
+    user:
+      name: "{{ user }}"
+      groups: docker
+      append: yes
+  - name: Add Jenkins user to ec2-user group
+    user:
+      name: "{{ user }}"
+      groups: ec2-user
+      append: yes
+  - name: Install Ansible and git 
+    yum:
+      name: 
+        - ansible
+        - git
+        - maven
+      state: present  
 
   - name: Verify the Java version
     shell: java -version
@@ -56,7 +70,4 @@
       dest: /usr/local/bin
       remote_src: yes
 
-  - name: Install Ansible
-    yum:
-      name: ansible
-      state: present
+

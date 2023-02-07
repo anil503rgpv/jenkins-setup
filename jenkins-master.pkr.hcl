@@ -1,7 +1,6 @@
 source "amazon-ebs" "basic-example" {
   region =  "ap-south-1"
-  source_ami =  "ami-02bbd3e40eb247e7e"
-//   source_ami = "ami-01a4f99c4ac11b03c"
+  source_ami = "ami-01a4f99c4ac11b03c"
   instance_type =  "m5a.large"
   associate_public_ip_address = true
   ssh_clear_authorized_keys = true
@@ -26,7 +25,7 @@ build {
 //   }
 
   provisioner "ansible" {
-      playbook_file = "./jenkins.yml"
+      playbook_file = "./jenkins-master.yml"
     }
 }
 
