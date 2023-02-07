@@ -11,10 +11,10 @@
   #     state: latest
   #   update_cache: yes
 
-  # - name: Install OpenJDK 11
-  #   yum:
-  #     name: java-11-openjdk-devel
-  #     state: present
+  - name: Install OpenJDK 11
+    amazon-linux-extras:
+      name: java-openjdk11
+      state: present
 
   # - name: Set Java 11 as the default Java version
   #   alternatives:
@@ -22,13 +22,13 @@
   #     link: /usr/lib/jvm/java-11-openjdk-11.0.9.1.0.0.el7_11-x86_64/bin/java
   #     name: java-11-openjdk-11.0.9.1.0.0.el7_11-x86_64
 
-  # - name: Verify the Java version
-  #   shell: java -version
-  #   register: result
+  - name: Verify the Java version
+    shell: java -version
+    register: result
 
-  # - name: Display the Java version
-  #   debug:
-  #     var: result.stdout_lines
+  - name: Display the Java version
+    debug:
+      var: result.stdout_lines
 
 
   - name: Install unzip
@@ -57,6 +57,11 @@
       src: /tmp/packer_1.8.5_linux_amd64.zip
       dest: /usr/local/bin
       remote_src: yes
+
+  - name: Install epel 
+    amazon-linux-extras:
+      name: epel
+      state: present
 
   - name: Install Ansible
     yum:
