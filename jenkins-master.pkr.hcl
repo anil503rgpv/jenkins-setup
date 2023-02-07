@@ -4,6 +4,8 @@ source "amazon-ebs" "basic-example" {
   instance_type =  "m5a.large"
   associate_public_ip_address = true
   ssh_clear_authorized_keys = true
+  ssh_agent_auth = true
+  ssh_keypair_name = "jenkins"
   ssh_username =  "jenkins"
   ami_name =  "jenkins-master-{{timestamp}}"
   tags = {
