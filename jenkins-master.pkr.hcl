@@ -6,7 +6,7 @@ source "amazon-ebs" "basic-example" {
   ssh_clear_authorized_keys = true
   ssh_agent_auth = true
   ssh_keypair_name = "jenkins"
-  ssh_username =  "ec2-user"
+  ssh_username =  "root"
   ami_name =  "jenkins-master-{{timestamp}}"
   tags = {
       managedBy = "DevOps"
