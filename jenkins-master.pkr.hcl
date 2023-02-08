@@ -1,3 +1,4 @@
+
 source "amazon-ebs" "jenkins-master" {
   region =  "ap-south-1"
   source_ami = "ami-01a4f99c4ac11b03c"
@@ -11,8 +12,8 @@ source "amazon-ebs" "jenkins-master" {
 
   launch_block_device_mappings {
     device_name = "/dev/sda1"
-    volume_size = 50
-    volume_type = "gp3"
+    volume_size = 40
+    volume_type = "gp2"
     delete_on_termination = true
   }
 
