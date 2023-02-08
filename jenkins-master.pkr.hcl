@@ -5,7 +5,7 @@ source "amazon-ebs" "jenkins-master" {
   associate_public_ip_address = true
   ssh_clear_authorized_keys = true
   #ssh_agent_auth = true
-  #ssh_keypair_name = "jenkins"
+  ssh_keypair_name = "jenkins"
   ssh_username =  "ec2-user"
   ami_name =  "jenkins-master-{{timestamp}}"
 
