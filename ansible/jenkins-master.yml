@@ -85,6 +85,7 @@
     ansible.builtin.git:
       repo: git@github.com:anil503rgpv/secret-credential-key.git
       dest: "{{ ssh_key_path }}"
+      accept_hostkey: true
 
   - name: copy github credential
     copy: 
