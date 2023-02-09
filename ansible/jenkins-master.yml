@@ -5,6 +5,7 @@
   vars:
     user: jenkins
     group: jenkins
+    ssh_key_path: /home/ec2-user/ssh_key
   tasks:
   - name: Install OpenJDK 11, epel, Docker
     command: amazon-linux-extras install java-openjdk11 epel docker -y
@@ -79,9 +80,15 @@
   #     name: "{{ user }}"
   #     groups: ec2-user
   #     append: yes
+
+  - name: Read-write git checkout from github
+    ansible.builtin.git:
+      repo: git@github.com:anil503rgpv/secret-credential-key.git
+      dest: "{{ ssh_key_path }}"
+
   - name: copy github credential
     copy: 
-      src: /home/jenkins/ssh_key/id_rsa
+      src: /home/ec2-user/ssh_key/id_rsa-git
       dest: /home/ec2-user/.ssh/id_rsa
       owner: ec2-user
       group: ec2-user
