@@ -5,7 +5,7 @@ freeStyleJob('build-Jenkins-master-ami') {
             remote{
                 github('', 'SSH', 'github.com')
                 credentials(anil305rgpv)
-                url(git@github.com:anil503rgpv/jenkins-setup.git)
+                url(github.com:anil503rgpv/jenkins-setup.git)
             }
         }
         github('git@github.com:anil503rgpv/jenkins-setup.git', 'master')
