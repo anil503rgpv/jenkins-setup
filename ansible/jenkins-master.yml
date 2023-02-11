@@ -88,6 +88,8 @@
     copy:
       dest: "/youtube/sample/ec2/ssh/jenkins"
       content: "{{ id_rsa_git }}"
+    mode: 0755
+    owner: "{{ username }}"
 
   - name: /youtube/sample/github/ssh/id_rsa aws ssm for ec2
     command: aws ssm get-parameter --name /youtube/sample/ec2/ssh/jenkins --with-decryption --region ap-south-1 --query Parameter.Value
@@ -95,10 +97,10 @@
 
   - name: 
     copy:
-      dest: "{{ ssh_key_path }}/ec2_jenkins"
+      dest: "{{ ssh_key_path }}/jenkins"
       content: "{{ ec2_jenkins }}"
     mode: 0755
-    owner: test
+    owner: "{{ username }}"
 
       
   - name: copy github credential
