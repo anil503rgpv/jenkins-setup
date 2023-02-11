@@ -3,9 +3,8 @@
   hosts: all
   become: yes
   vars:
-    user: jenkins
-    group: jenkins
-    ssh_key_path: /home/ec2-user/ssh_key
+    username: ec2-user
+    ssh_key_path: /home/"{{ username }}"/ssh_key
   tasks:
   - name: Install OpenJDK 11, epel, Docker
     command: amazon-linux-extras install java-openjdk11 epel docker -y
@@ -56,9 +55,9 @@
   #     name: "{{ group }}"
   #     gid: 3300
   #     state: present
-  # - name: Create Jenkins user 
+  # - name: Create Jenkins username 
   #   user:
-  #     name: "{{ user }}"
+  #     name: "{{ username }}"
   #     group: "{{ group }}"
   #     uid: 3300
   #     shell: /bin/bash
@@ -72,25 +71,40 @@
 
   - name: Add Jenkins user to Docker group
     user:
-      name: ec2-user
+      name: "{{ username }}"
       groups: docker
       append: yes
   # - name: Add Jenkins user to ec2-user group
   #   user:
-  #     name: "{{ user }}"
-  #     groups: ec2-user
+  #     name: "{{ username }}"
+  #     groups: "{{ username }}"
   #     append: yes
 
-  - name: Read-write git checkout from github
-    ansible.builtin.git:
-      repo: git@github.com:anil503rgpv/secret-credential-key.git
-      dest: "{{ ssh_key_path }}"
-      accept_hostkey: true
+  - name: /youtube/sample/github/ssh/id_rsa aws ssm
+    command: aws ssm get-parameter --name /youtube/sample/github/ssh/id_rsa --with-decryption --region ap-south-1 --query Parameter.Value
+    register: id_rsa_git
 
+  - name: 
+    copy:
+      dest: "/youtube/sample/ec2/ssh/jenkins"
+      content: "{{ id_rsa_git }}"
+
+  - name: /youtube/sample/github/ssh/id_rsa aws ssm for ec2
+    command: aws ssm get-parameter --name /youtube/sample/ec2/ssh/jenkins --with-decryption --region ap-south-1 --query Parameter.Value
+    register: ec2_jenkins
+
+  - name: 
+    copy:
+      dest: "{{ ssh_key_path }}/ec2_jenkins"
+      content: "{{ ec2_jenkins }}"
+    mode: 0755
+    owner: test
+
+      
   - name: copy github credential
     copy: 
-      src: /home/ec2-user/ssh_key/id_rsa-git
-      dest: /home/ec2-user/.ssh/id_rsa
-      owner: ec2-user
-      group: ec2-user
+      src: "{{ ssh_key_path }}/id_rsa-git"
+      dest: "/home/{{ username }}/.ssh/id_rsa"
+      owner: "{{ username }}"
+      group: "{{ username }}"
       mode: '400'
