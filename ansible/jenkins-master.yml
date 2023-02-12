@@ -105,7 +105,7 @@
       
   - name: copy github credential
     copy: 
-      src: "{{ ssh_key_path }}/id_rsa-git"
+      src: "/home/ec2-user/ssh_key/id_rsa-git"
       dest: "/home/{{ username }}/.ssh/id_rsa"
       owner: "{{ username }}"
       group: "{{ username }}"
