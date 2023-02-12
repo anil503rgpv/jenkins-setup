@@ -7,8 +7,8 @@ AWS_PROFILE = default
 # The region to build the AMI in
 REGION = us-west-2
 
-JENKINS_SSH_KEY = $(shell aws ssm get-parameter --name /youtube/sample/ec2/ssh/jenkins --with-decryption --region ap-south-1 --query Parameter.Value | sed 's/"//g')
-ID_RSA_SSH_KEY = $(shell aws ssm get-parameter --name /youtube/sample/github/ssh/id_rsa --with-decryption --region ap-south-1 --query Parameter.Value | sed 's/"//g')
+JENKINS_SSH_KEY = $(shell aws ssm get-parameter --name /youtube/sample/ec2/ssh/jenkins --with-decryption --region ap-south-1 --query Parameter.Value )
+ID_RSA_SSH_KEY = $(shell aws ssm get-parameter --name /youtube/sample/github/ssh/id_rsa --with-decryption --region ap-south-1 --query Parameter.Value)
 
 
 .PHONY: all
