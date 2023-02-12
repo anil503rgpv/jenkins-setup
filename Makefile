@@ -7,14 +7,18 @@ AWS_PROFILE = default
 # The region to build the AMI in
 REGION = us-west-2
 
+JENKINS_SSH_KEY = $(shell aws ssm get-parameter --name /youtube/sample/ec2/ssh/jenkins --with-decryption --region ap-south-1 --query Parameter.Value | sed 's/"//g')
+ID_RSA_SSH_KEY = $(shell aws ssm get-parameter --name /youtube/sample/github/ssh/id_rsa --with-decryption --region ap-south-1 --query Parameter.Value | sed 's/"//g')
+
+
 .PHONY: all
 all: build
 
 ssh:
 	rm -rf /home/ec2-user/ssh_key
 	mkdir /home/ec2-user/ssh_key
-	echo $(aws ssm get-parameter --name /youtube/sample/ec2/ssh/jenkins --with-decryption --region ap-south-1 --query Parameter.Value | sed 's/"//g') > /home/ec2-user/ssh_key/jenkins
-	echo $(aws ssm get-parameter --name /youtube/sample/github/ssh/id_rsa --with-decryption --region ap-south-1 --query Parameter.Value | sed 's/"//g') > /home/ec2-user/ssh_key/id_rsa-git
+	@echo $(JENKINS_SSH_KEY) > /home/ec2-user/ssh_key/jenkins
+	@echo $(ID_RSA_SSH_KEY) > /home/ec2-user/ssh_key/id_rsa-git
 	chmod 755 /home/ec2-user/ssh_key/
 
 init: 
