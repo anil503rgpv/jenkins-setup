@@ -80,27 +80,27 @@
   #     groups: "{{ username }}"
   #     append: yes
 
-  - name: /youtube/sample/github/ssh/id_rsa aws ssm
-    command: aws ssm get-parameter --name /youtube/sample/github/ssh/id_rsa --with-decryption --region ap-south-1 --query Parameter.Value
-    register: id_rsa_git
+  # - name: /youtube/sample/github/ssh/id_rsa aws ssm
+  #   command: aws ssm get-parameter --name /youtube/sample/github/ssh/id_rsa --with-decryption --region ap-south-1 --query Parameter.Value
+  #   register: id_rsa_git
 
-  - name: 
-    copy:
-      dest: "/youtube/sample/ec2/ssh/id_rsa-git"
-      content: "{{ id_rsa_git }}"
-      mode: '755'
-      owner: "{{ username }}"
+  # - name: /youtube/sample/github/ssh/id_rsa in local
+  #   copy:
+  #     dest: "{{ ssh_key_path }}/id_rsa-git"
+  #     content: "{{ id_rsa_git }}"
+  #     mode: '755'
+  #     owner: "{{ username }}"
 
-  - name: /youtube/sample/github/ssh/id_rsa aws ssm for ec2
-    command: aws ssm get-parameter --name /youtube/sample/ec2/ssh/jenkins --with-decryption --region ap-south-1 --query Parameter.Value
-    register: ec2_jenkins
+  # - name: /youtube/sample/github/ssh/jenkins aws ssm for ec2
+  #   command: aws ssm get-parameter --name /youtube/sample/ec2/ssh/jenkins --with-decryption --region ap-south-1 --query Parameter.Value
+  #   register: ec2_jenkins
 
-  - name: 
-    copy:
-      dest: "{{ ssh_key_path }}/jenkins"
-      content: "{{ ec2_jenkins }}"
-      mode: '755'
-      owner: "{{ username }}"
+  # - name: /youtube/sample/github/ssh/jenkins in local
+  #   copy:
+  #     dest: "{{ ssh_key_path }}/jenkins"
+  #     content: "{{ ec2_jenkins }}"
+  #     mode: '755'
+  #     owner: "{{ username }}"
 
       
   - name: copy github credential
@@ -110,4 +110,4 @@
       owner: "{{ username }}"
       group: "{{ username }}"
       mode: '400'
-      remote_src: true
+      # remote_src: true

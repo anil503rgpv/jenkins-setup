@@ -10,12 +10,18 @@ REGION = us-west-2
 .PHONY: all
 all: build
 
+ssh:
+	rm -rf /home/ec2-user/ssh_key
+	mkdir /home/ec2-user/ssh_key
+	echo $(aws ssm get-parameter --name /youtube/sample/ec2/ssh/jenkins --with-decryption --region ap-south-1 --query Parameter.Value | sed 's/"//g') > /home/ec2-user/ssh_key/jenkins
+	echo $(aws ssm get-parameter --name /youtube/sample/github/ssh/id_rsa --with-decryption --region ap-south-1 --query Parameter.Value | sed 's/"//g') > /home/ec2-user/ssh_key/id_rsa-git
+	chmod 755 /home/ec2-user/ssh_key/
 
 init: 
 	packer init .
 
 .PHONY: build
-build: 
+build: ssh
 	packer build .
 
 # .PHONY: build

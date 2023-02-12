@@ -1,6 +1,4 @@
 source "amazon-ebs" "jenkins-master" {
-  access_key = "{{`AWS_ACCESS_KEY_ID`}}"
-  secret_key = "{{`AWS_SECRET_ACCESS_KEY`}}"
   region =  "ap-south-1"
   source_ami = "ami-01a4f99c4ac11b03c"
   instance_type =  "m5a.large"
