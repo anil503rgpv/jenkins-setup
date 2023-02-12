@@ -1,14 +1,6 @@
-
-variables {
-  aws_access_key = ""
-  aws_secret_key = ""
-}
-
 source "amazon-ebs" "jenkins-master" {
   region =  "ap-south-1"
   source_ami = "ami-01a4f99c4ac11b03c"
-  access_key = "{{user `aws_access_key`}}"
-  secret_key = "{{user `aws_secret_key`}}"
   instance_type =  "m5a.large"
   associate_public_ip_address = true
   ssh_clear_authorized_keys = true
