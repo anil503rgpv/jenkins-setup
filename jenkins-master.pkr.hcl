@@ -1,4 +1,11 @@
+variables {
+  aws_access_key =  "{{env `AWS_ACCESS_KEY_ID`}}"
+  aws_secret_key =  "{{env `AWS_SECRET_ACCESS_KEY`}}"
+}
+
 source "amazon-ebs" "jenkins-master" {
+  access_key = "{{user `aws_access_key`}}"
+  secret_key = "{{user `aws_secret_key`}}"
   region =  "ap-south-1"
   source_ami = "ami-01a4f99c4ac11b03c"
   instance_type =  "m5a.large"
